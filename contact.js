@@ -72,21 +72,7 @@ set zip(zip){
 }
 
 window.addEventListener('DOMContentLoaded',add);
-function add() {
-  const name =document.querySelector('#name');
-  const texterror=document.querySelector('.text-error');
-  name.addEventListener('input',function(){
-    if(name.value.length==0){
-    texterror.textContent="";
-    return;
-    }
-    try{
-    (new Contact).name=name.value;
-    texterror.textContent="";
-    }catch(e){
-      texterror.textContent.e;
-    }
-  })
+function add(){
   const email =document.querySelector('#email');
   const texterror2=document.querySelector('.text-error2');
   email.addEventListener('input',function(){
@@ -100,12 +86,12 @@ function add() {
     }catch(e){
       texterror2.textContent.e;
     }
-  })
-  const phone =document.querySelector('#phonenumber');
+  });
+  const phone =document.querySelector('#phoneNumber');
   const texterror3=document.querySelector('.text-error3');
   phone.addEventListener('input',function(){
-    if(name.value.length==0){
-    texterror.textContent="";
+    if(phone.value.length==0){
+    texterror3.textContent="";
     return;
     }
     try{
@@ -114,7 +100,7 @@ function add() {
     }catch(e){
       texterror3.textContent.e;
     }
-  })
+  });
   const zip =document.querySelector('#zip');
   const texterror1=document.querySelector('.text-error1');
   zip.addEventListener('input',function(){
@@ -128,91 +114,101 @@ function add() {
     }catch(e){
       texterror1.textContent.e;
     }
-  })
+  });
+}
+
+const save= () => { 
+  alert("save called");
+ let person = createContact();
+ alert(person._name);
+console.log(person._name);
+ createAndupdateStorage(person);
+ alert("storage updated");
+ resetForm(person);
+ alert("form reset");
+
+
+};
   const createContact= () => { 
-    let Contact= new Contact();
-   try{ Contact.name = getInputValueById('#name'); 
+    let person= new Contact();
+   try{ person._name = getInputValueById('#name'); 
   }catch (e) {
     setTextValue('.text-error', e); 
     throw e; 
   } 
-  try{ Contact.phone = getInputValueById('#phone'); 
+  try{ person._phone = getInputValueById('#phoneNumber'); 
 }catch (e) {
   setTextValue('.text-error3', e); 
   throw e; 
 } 
-try{ Contact.email = getInputValueById('#email'); 
+try{ person._email = getInputValueById('#email'); 
 }catch (e) {
   setTextValue('.text-error2', e); 
   throw e; 
 } 
-try{ Contact.zip = getInputValueById('#zip'); 
+try{ person._zip = getInputValueById('#zip'); 
 }catch (e) {
   setTextValue('.text-error1', e); 
   throw e; 
 } 
-     Contact.address = getInputElementValue('#adddres');
-     Contact.city = getInputElementValue('#city');
-     Contact.state = getInputElementValue('#state');
-      return Contact; 
-  }
-  
+person._address = getInputValueById('#address');
+person._city = getInputValueById('#city');
+person._state = getInputValueById('#state');
+alert("contact created")
+      return person; 
+}
+ 
+
   const getInputValueById = (id) => { 
     let value = document.querySelector(id).value;
      return value; 
-    } 
-   const getInputElementValue = (id) => {
+}
+
+const getInputElementValue = (id) => {
      let value = document.getElementById(id).value;
      return value; 
-   }
+}
    
    
-   const save=() => { try {
-    let Contact = createContact(); 
-    createAndupdateStorage(Contact); 
-  } catch (e){ return; 
-  } 
-  function createAndupdateStorage(Contact){
-    let ContactList = JSON.parse(localStorage.getItem("ContactList")); 
-   if(ContactList != undefined)
-   { ContactList.push(Contact);
-    } else{ContactList = [Contact]
+   
+    
+  const createAndupdateStorage=(person)=>{
+    alert("insert contact local storage method");
+    alert(person._name);
+    let contactList = JSON.parse(localStorage.getItem('contactList')); 
+   if(contactList != undefined)
+   { 
+    contactList.push(person);
+    } else{
+        contactList = [person]
     }
-    alert(ContactList.toString()); 
-   localStorage.setItem("ContactList", JSON.stringify(ContactList)) 
+     alert(contactList.toString()); 
+   localStorage.setItem("contactList", JSON.stringify(contactList)) 
    }
    
-  }
-  const resetForm = () => { 
+   const resetForm = () => { 
    setValue('#name',''); 
-   setValue('#phone',''); 
+   setValue('#phonenumber',''); 
    setValue('#email',''); 
    setValue('#adresss',''); 
    setValue('#zip',''); 
    setValue('#state',''); 
    setValue('#city',''); 
    
-   
   } 
-//  const submit = document.querySelector('#submit');
-//  submit.addEventListener('click',function(){
-//     const form = document.querySelector('#form');
-//     const formdata = new FormData(form);
-
-
-
-
-
   const setTextValue = (id, value) => 
-  { const element = document.querySelector(id);
-     element.textContent = value; 
-  } 
+{ const element = document.querySelector(id);
+   element.textContent = value; 
+} 
+
   const setValue = (id, value) => 
   { const element = document.querySelector(id);
      element.value = value; 
   } 
-}
-      
+  function cancelForm() {
+    document.getElementById("employeeForm").reset();
+  }
+  
 
 
 
